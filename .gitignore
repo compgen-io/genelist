@@ -1,0 +1,5 @@
+scripts/db.cred
+*.pyc
+venv/
+working/
+.vagrant/

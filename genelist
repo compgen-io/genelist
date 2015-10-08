@@ -1,0 +1,44 @@
+#!/bin/bash
+
+init() {
+    if [ -e venv ]; then
+        rm -rf venv
+    fi
+    virtualenv venv
+    venv/bin/pip install -r requirements.txt
+}
+
+start() {
+    cd src
+    
+    ../venv/bin/python app.py
+    while [ -e ../working/RELOAD ]; do
+        sleep 5
+        ../venv/bin/python app.py
+    done
+}
+
+mkdir -p working
+
+case "$1" in 
+    start)
+        if [ ! -e venv ]; then
+            init
+        fi
+        if [ "$APP_ENV" == "dev" ]; then
+            touch working/RELOAD
+        fi
+        start
+        if [ -e working/RELOAD]; then
+            rm working/RELOAD
+        fi
+        ;;
+    init)
+        init
+        ;;
+
+    *)
+        echo "Unknown option. Valid options: start init"
+        exit 1
+        ;;
+esac

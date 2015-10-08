@@ -1,0 +1,31 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+#  config.vm.synced_folder ".", "/vagrant", disabled: true
+#  config.vm.box = "centos/7"
+#  config.vm.hostname = "docker-host"
+#  config.vm.provision "docker"
+  #config.vm.synced_folder ".", "/srv/genelist"
+ # config.vm.provision :shell, inline: <<-EOF
+
+#    yum install -y rsync
+#    usermod -G dockerroot vagrant
+#    grep -v "^OPTIONS" /etc/sysconfig/docker > /tmp/tmp
+#    mv /tmp/tmp /etc/sysconfig/docker
+#    echo "OPTIONS='--selinux-enabled -G dockerroot'" >> /etc/sysconfig/docker
+#    cat /etc/sysconfig/docker
+#    id vagrant
+#    id
+#    systemctl restart docker
+#    id
+#
+# EOF
+#
+  config.ssh.username = "docker"
+  config.ssh.password = "tcuser"
+  config.ssh.insert_key = true
+  config.vm.box = "hashicorp/boot2docker"
+  config.vm.network :forwarded_port, guest: 5000, host: 5000
+end
