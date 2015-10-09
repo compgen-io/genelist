@@ -11,10 +11,11 @@ init() {
 start() {
     cd src
     
-    ../venv/bin/python app.py
+    ../venv/bin/python app.py > ../working/log
     while [ -e ../working/RELOAD ]; do
         sleep 5
-        ../venv/bin/python app.py
+        echo "$(date) RESTARTING" >> ../working/log
+        ../venv/bin/python app.py >> ../working/log
     done
 }
 
