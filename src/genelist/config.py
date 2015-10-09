@@ -72,13 +72,14 @@ class Config(dict):
             print "init-db-out"
 
 
-def load_config(fname='../scripts/db.cred'):
+def load_config(fnames=['../scripts/db.cred', '../app.config']):
     config = Config()
-    if os.path.exists(fname):
-        with open(fname) as f:
-            for line in f:
-                k, v = line.strip().split('=', 2)
-                config[k] = v
+    for fname in fnames:
+        if os.path.exists(fname):
+            with open(fname) as f:
+                for line in f:
+                    k, v = line.strip().split('=', 2)
+                    config[k] = v
 
     config['DB_HOST'] = 'localhost'
     config['DB_PORT'] = 5432
