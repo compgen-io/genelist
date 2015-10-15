@@ -4,6 +4,13 @@
 VAGRANTFILE_API_VERSION = "2"
 ENV['VAGRANT_DEFAULT_PROVIDER'] = 'docker'
 
+# copy app.config to script
+# required for Dockerfile to see the config to send
+# to the db container
+
+require 'fileutils'
+FileUtils.cp('app.config', 'scripts/app.config')
+
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.synced_folder ".", "/vagrant", disabled: true
 

@@ -1,5 +1,5 @@
 FROM centos/postgresql
 MAINTAINER Marcus R. Breese <marcus@breese.com>
 
-ADD db.cred start_postgres.sh /
+ADD app.config start_postgres.sh / 
 

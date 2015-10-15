@@ -5,8 +5,8 @@ DB_USER=${DB_USER:-}
 DB_PASS=${DB_PASS:-}
 PG_CONFDIR="/var/lib/pgsql/data"
 
-if [ -e /db.cred ]; then
-    . /db.cred
+if [ -e /app.config ]; then
+    . /app.config
 fi
 
 __create_user() {

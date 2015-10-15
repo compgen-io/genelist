@@ -1,1 +1,4 @@
 SECRET_KEY=secret_goes_here
+DB_USER=username
+DB_PASS=password
+DB_NAME=db
