@@ -1,36 +1,16 @@
 import binascii
-import datetime
 import os
 
 from flask import Flask, redirect, request, render_template, session
+
 import config
+import support.uptime
 
 app = Flask(__name__)
 conf = config.load_config()
 app.secret_key = conf['SECRET_KEY'] if 'SECRET_KEY' in conf else binascii.hexlify(os.urandom(64))
 
-start_time = datetime.datetime.now()
-
-
-def uptime():
-    td = datetime.datetime.now() - start_time
-    s = ''
-    if td.days > 0:
-        s = '%sd'
-
-    secs = td.seconds
-    hours = secs / (60 * 60)
-    if hours > 0:
-        s += '%sh' % hours
-        secs = secs - (hours * 60 * 60)
-
-    mins = secs / 60
-    if mins > 0:
-        s += '%sm' % mins
-        secs = secs - (mins * 60)
-
-    s += '%ss' % secs
-    return s
+uptime = support.uptime.Uptime()
 
 
 @app.route("/signout")
@@ -58,7 +38,7 @@ def signin():
 
 @app.route("/")
 def main():
-    return render_template("index.html", uptime=uptime())
+    return render_template("index.html", uptime=uptime.uptime_str())
 
 
 @app.route("/foo")
