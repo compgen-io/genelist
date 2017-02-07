@@ -10,6 +10,10 @@ app = Flask(__name__)
 conf = config.load_config()
 app.secret_key = conf['SECRET_KEY'] if 'SECRET_KEY' in conf else binascii.hexlify(os.urandom(64))
 
+import site
+app.register_blueprint(site.site, url_prefix=conf['URL_PREFIX'])
+
+
 uptime = support.uptime.Uptime()
 
 
@@ -58,9 +62,9 @@ def foo():
 
 
 @app.route("/resetdb")
-def bar():
+def resetdb():
     conf.resetdb()
-    return redirect('/foo')
+    return redirect('/')
 
 
 def run(*args, **kwargs):

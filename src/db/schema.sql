@@ -16,7 +16,9 @@ CREATE TABLE users (
 
 CREATE TABLE orgs (
 	id SERIAL PRIMARY KEY,
-	common_name VARCHAR(255) UNIQUE NOT NULL
+	code_name VARCHAR(8) UNIQUE NOT NULL,
+	common_name VARCHAR(255) UNIQUE NOT NULL,
+	genus_species VARCHAR(255) UNIQUE NOT NULL
 );
 
 CREATE TABLE genes (
@@ -38,9 +40,12 @@ CREATE TABLE gene_aliases (
 CREATE TABLE lists (
 	id SERIAL PRIMARY KEY,
 	name VARCHAR(1024) NOT NULL,
+	date_added TIMESTAMP NOT NULL DEFAULT now(),
 	org_id INTEGER NOT NULL REFERENCES orgs(id),
 	parent_id INTEGER REFERENCES lists(id),
-	is_public BOOLEAN DEFAULT TRUE
+	is_public BOOLEAN DEFAULT TRUE,
+	url VARCHAR(1024),
+	description TEXT
 );
 
 CREATE TABLE evidence (
@@ -48,8 +53,9 @@ CREATE TABLE evidence (
 	title TEXT,
 	citation TEXT,
 	abstract TEXT,
-	url TEXT UNIQUE,
-	pubmed_id VARCHAR(255) UNIQUE
+	doi VARCHAR(1024),
+	url VARCHAR(1024),
+	pubmed_id VARCHAR(255)
 );
 
 CREATE TABLE gene_list (
@@ -69,4 +75,4 @@ CREATE TABLE gene_list_evidence (
 );
 
 INSERT INTO users (username, password, is_admin) VALUES ('sa', 'pbkdf2$d66545c53de8a162443ddc6fab4348bf$82cc46bfb92eea0062ed4fc378b7f99f42cf71711aeb388e225e70fbf0030a92', TRUE);
-INSERT INTO orgs (common_name) VALUES ('Human');
+INSERT INTO orgs (common_name, code_name, genus_species) VALUES ('Human', 'Hs', 'Homo sapiens');
